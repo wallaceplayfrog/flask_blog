@@ -32,10 +32,17 @@ Flask
 </div>
 {% endblock %}
 
+<!-- 定义收藏夹图标 -->
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"
     type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"
     type='image/x-icon'>
-{% endblock head %}      
+{% endblock head %}   
+
+<!-- 引入Moment.js库 -->
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock scripts %}
