@@ -50,6 +50,12 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+# 添加一个shell上下文
+# 启动shell时自动导入对象
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
