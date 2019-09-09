@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Frogy - 确认账户{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        嗨, {{ current_user.username }}!
+    </h1>
+    <h3>你的账户还没有激活。</h3>
+    <p>
+        在访问本页面之前你需要先激活账户，
+        一封有确认链接的邮件已经发送到了你的邮箱。
+    </p>
+    <p>
+        重新发送邮件
+        <a href="{{ url_for('auth.resend_confirmation') }}">点击这里</a>
+    </p>
+</div>
+{% endblock %}

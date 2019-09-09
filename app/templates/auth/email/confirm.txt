@@ -1,0 +1,11 @@
+Hello, {{ user.username }}
+
+欢迎！
+
+点击这里来确认账户。
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+wallaceplayfrog 敬上
+
+提示：这是一封确认邮件，请不要回复。
