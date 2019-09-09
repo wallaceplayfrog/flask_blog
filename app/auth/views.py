@@ -2,7 +2,22 @@ from flask import render_template, redirect, request, url_for, flash
 from . import auth
 from flask_login import login_user, login_required, logout_user
 from ..models import User
-from .forms import LoginForm 
+from .forms import LoginForm, RegistrationForm
+from .. import db
+
+
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data,
+            username=form.username.data,
+            password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('注册成功')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
