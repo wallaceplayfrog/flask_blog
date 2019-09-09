@@ -3,15 +3,18 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.qq.com')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT', '465'))
-    MIAL_USE_TLS = True  # os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    MIAL_USE_SSL = True  # os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'yanglin_n@foxmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'tjkvpmpvwrumecga'
-    FLASKY_MAIL_SUBJECT_PREFIX = '[FLASKY]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <flask@admin.com>'
+    SECRET_KEY = 'hard to guess string'  # os.environ.get('SECRET_KEY') or 'hard to guess string'
+    MAIL_SERVER = 'smtp.qq.com' # os.environ.get('MAIL_SERVER', 'smtp.qq.com')
+    MAIL_PORT = 465  # int(os.environ.get('MAIL_PORT', '465'))
+    MAIL_USE_TLS = False  # os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
+    MAIL_USE_SSL = True  # os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
+    MAIL_USERNAME = '2425779559@qq.com'  # os.environ.get('MAIL_USERNAME') 
+    MAIL_PASSWORD = 'clwstmhqcivudijc'  # os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = '2425779559@qq.com'  # os.environ.get('MAIL_DEFAULT_SENDER')
+    MAIL_SUPPRESS_SEND = False
+    
+    FLASKY_MAIL_SUBJECT_PREFIX = '[FROGY]'
+    FLASKY_MAIL_SENDER = 'Frogy@admin.com'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
