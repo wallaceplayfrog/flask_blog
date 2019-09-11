@@ -3,6 +3,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from datetime import datetime
 
 
 class Permission:
@@ -87,6 +88,17 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     # 确认用户账户
     confirmed = db.Column(db.Boolean, default=False)
+    # 新增用户信息字段
+    name = db.Column(db.String(64))  # 真实姓名
+    location = db.Column(db.String(64))  # 所在地
+    about_me = db.Column(db.Text())  # 自我介绍
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)  # 注册日期
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)  # 最后访问日期
+
+    def ping(self):  # 刷新用户的最后访问时间
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
