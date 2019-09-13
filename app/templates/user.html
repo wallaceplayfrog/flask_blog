@@ -4,7 +4,7 @@
 
 {% block page_content %}
 <div class="page-header">
-    <img class="img-rounded profile-thumbnail" src="/static/img/defaultbar.jpg"><!--- 头像链接 --->
+    <img class="img-rounded profile-thumbnail" src="/static/img/defaultbar.jpg", width=256, height=256><!--- 头像链接 --->
     <div class="profile-header">
         <h1>{{ user.username }}</h1>
         {% if user.name or user.location %}
