@@ -11,7 +11,7 @@ class Config:
     MAIL_USERNAME = '2425779559@qq.com'  # os.environ.get('MAIL_USERNAME') 
     MAIL_PASSWORD = 'clwstmhqcivudijc'  # os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = '2425779559@qq.com'  # os.environ.get('MAIL_DEFAULT_SENDER')
-    MAIL_SUPPRESS_SEND = False
+    MAIL_SUPPRESS_SEND = True
     
     FLASKY_MAIL_SUBJECT_PREFIX = '[FROGY]'
     FLASKY_MAIL_SENDER = 'Frogy@admin.com'
