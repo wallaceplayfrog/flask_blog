@@ -13,6 +13,7 @@ class Config:
     MAIL_DEFAULT_SENDER = '2425779559@qq.com'  # os.environ.get('MAIL_DEFAULT_SENDER')
     MAIL_SUPPRESS_SEND = True
     
+    FLASKY_POSTS_PER_PAGE = 10
     FLASKY_MAIL_SUBJECT_PREFIX = '[FROGY]'
     FLASKY_MAIL_SENDER = 'Frogy@admin.com'
     FLASKY_ADMIN = '2425779559@qq.com'  # os.environ.get('FLASKY_ADMIN')
