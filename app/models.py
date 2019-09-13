@@ -6,6 +6,13 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
 
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
 class Permission:
     FOLLOW = 1
     COMMENT = 2
@@ -94,6 +101,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())  # 自我介绍
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)  # 注册日期
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)  # 最后访问日期
+    posts = db.relationship('Post', backref='author', lazy='dynamic')  # 发帖外键
 
     def ping(self):  # 刷新用户的最后访问时间
         self.last_seen = datetime.utcnow()
