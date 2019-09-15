@@ -110,7 +110,7 @@ def follow(username):
         flash('未知用户')
         return redirect(url_for('.index'))
     if current_user.is_following(user):
-        flash('你已经关注的这个用户')
+        flash('你已经关注这个用户')
         return redirect(url_for('.user', username=username))
     current_user.follow(user)
     db.session.commit()
@@ -129,6 +129,7 @@ def unfollow(username):
         flash('你已经取关用户')
         return redirect(url_for('.user', username=username))
     current_user.unfollow(user)
+    db.session.commit()
     flash('已取关 %s 。' % username)
     return redirect(url_for('.user', username=username))
 

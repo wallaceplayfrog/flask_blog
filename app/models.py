@@ -157,12 +157,17 @@ class User(UserMixin, db.Model):
     def is_following(self, user):
         if user.id is None:
             return False
-        return self.followed.filter_by(follow_id=user.id).first() is not None
+        return self.followed.filter_by(followed_id=user.id).first() is not None
     
     def is_followed_by(self, user):
         if user.id is None:
             return False
         return self.follwoers.filter_by(follower_id=user.id).first() is not None
+    
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.author_id)\
+            .filter_by(Follow.follower_id == self.id)
     
     def ping(self):  # 刷新用户的最后访问时间
         self.last_seen = datetime.utcnow()
