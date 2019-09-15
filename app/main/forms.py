@@ -50,5 +50,10 @@ class EditProfileAdminForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    body = PageDownField('有点想法？', validators=[DataRequired()])
+    body = PageDownField('发表主题', validators=[DataRequired()])
     sbumit = SubmitField('提交')
+
+
+class CommentForm(FlaskForm):
+    body = StringField('发表评论', validators=[DataRequired()])
+    submit = SubmitField('提交')
