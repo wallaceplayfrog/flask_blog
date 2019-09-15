@@ -99,6 +99,13 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
+class Follow(db.Model):
+    __tablename__ = 'follows'
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -117,11 +124,17 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)  # 注册日期
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)  # 最后访问日期
     posts = db.relationship('Post', backref='author', lazy='dynamic')  # 发帖外键
+    followed = db.relationship('Follow', 
+                               foreign_keys=[Follow.follower_id],
+                               backref=db.backref('follower', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all, delete-orphan')
 
-    def ping(self):  # 刷新用户的最后访问时间
-        self.last_seen = datetime.utcnow()
-        db.session.add(self)
-        db.session.commit()
+    followers = db.relationship('Follow', 
+                               foreign_keys=[Follow.followed_id],
+                               backref=db.backref('followed', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all, delete-orphan')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -130,6 +143,31 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+
+    def follow(self, user):
+        if not self.is_following(user):
+            f = Follow(follwer=self, followed=user)
+            db.session.add(f)
+    
+    def unfollow(self, user):
+        f = self.followed.filter_by(followed_id=user.id).first()
+        if f:
+            db.session.delete(f)
+    
+    def is_following(self, user):
+        if user.id is None:
+            return False
+        return self.followed.filter_by(follow_id=user.id).first() is not None
+    
+    def is_followed_by(self, user):
+        if user.id is None:
+            return False
+        return self.follwoers.filter_by(follower_id=user.id).first() is not None
+    
+    def ping(self):  # 刷新用户的最后访问时间
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
     
     # 检验用户是否有指定的权限
     def can(self, perm):
